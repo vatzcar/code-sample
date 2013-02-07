@@ -1,0 +1,85 @@
+<?php
+	/**
+	 * @package users
+	 *
+	 */
+	
+	class Users {
+		/**
+		 * Class constructor
+		 *//*
+		function __construct() {
+			$system = System::setInstance();
+			
+			if ($system->act == 'login') {
+				$this->login();
+			} else if ($system->act == 'logout') {
+				$this->logout();
+			}
+		}
+		
+		/**
+		 * Method to perform login
+		 */
+		public function login() {
+			$database = Database::setInstance();
+			$system = System::setInstance();
+			$session = Session::setInstance();
+			
+			if (isset($_POST['submit'])) {
+				$userid = $_POST['uid'];
+				$passwd = $_POST['paswd'];
+				
+				$query = "SELECT `name` FROM `vdemo_user` WHERE `user_id`='$userid' AND `passwd`=password('$passwd')";
+				$database->executeQuery($query);
+				
+				$row = $database->fetchResultRow();
+				
+				if ($row === null) {
+					$system->site_error = true;
+					$system->site_error_no = 6;
+					$system->site_error_msg = 'Login Data Incorrect!';
+				} else {
+					$session->doLogIn();
+					$session->setUserID($userid);
+					$session->checkAdmin();
+					
+					$_SESSION['UID'] = $userid;
+				}
+				
+				$system->redirect('index.php?task=frontpage');
+			}
+		}
+		
+		/**
+		 * Method to perform logout
+		 */
+		public function logout(){
+			$session = Session::setInstance();
+			$system = System::setInstance();
+			
+			unset($_SESSION['UID']);
+			$session->doLogout();
+			
+			$system->redirect('index.php');
+		}
+		
+		/**
+		 * method to list users
+		 * 
+		 * @return array
+		 */
+		public function showUserList() {
+			$session = Session::setInstance();
+			$system = System::setInstance();
+			$database = Database::setInstance();
+			
+			$query = "SELECT `name`,`isadmin` FROM `vdemo_user` ORDER BY `name`";
+			$database->executeQuery($query);
+				
+			$result = $database->fetchResultRow();
+				
+			return $result;
+		}
+	}
+?>

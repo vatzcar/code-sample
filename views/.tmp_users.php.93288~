@@ -1,0 +1,67 @@
+<?php
+class UsersView extends Views {
+	public function login() {
+		$this->controllerObject->login();
+	}
+	
+	public function logout() {
+		$this->controllerObject->logout();
+	}
+	
+	public function listuser() {
+		$users = $this->controllerObject->showUserList();
+		$i = 0;
+?>
+		<div class="adminpanel">
+			<form name="useradd" method="post" action="index.php">
+				<div class="tablerow">
+	  				<div class="tablecolumnmedium"><b>Name</b></div>
+	  				<div class="tablecolumnlarge"><input type="text" name="username" class="inputbox" /> </div>
+				</div>
+				<div class="clear"></div>
+				<div class="tablerow">
+	  				<div class="tablecolumnmedium"><b>User ID</b></div>
+	  				<div class="tablecolumnlarge"><input type="text" name="userid" class="inputbox" /> </div>
+				</div>
+				<div class="clear"></div>
+				<div class="tablerow">
+	  				<div class="tablecolumnmedium"><b>Password</b></div>
+	  				<div class="tablecolumnlarge"><input type="password" name="passwd" class="inputbox" /> </div>
+				</div>
+				<div class="clear"></div>
+				<div class="tablerow">
+	  				<div class="tablecolumnlarge">&nbsp;</div>
+				</div>
+				<div class="clear"></div>
+				<div class="tablerow">
+				  <div class="tablecolumnmedium">&nbsp;</div>
+				  <div class="tablecolumnlarge"><label><input type="checkbox" name="admin"  /> Admin</label></div>
+				</div>
+				<div class="clear"></div>
+				<div class="tablerow">
+				  <div class="tablecolumnmedium">
+				    <input type="hidden" name="task" value="user" />
+				    <input type="hidden" name="act" value="save" />
+					&nbsp;
+				  </div>
+				  <div class="tablecolumnlarge"><input type="submit" name="submit" value="Save" class="loginbutton" /></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+		<div class="listbox">
+			<div class="tablehead">
+				<div class="tablecolumnlarge">Name</div>
+				<div class="tablecolumnmedium">IsAdmin</div>
+			</div>
+			<div class="clear"></div>
+<?php foreach($users as $user) : ?>
+			<div class="tablerow <?php echo (($i%2)==0)?'lightorange-row':'darkorange-row'; ?>">
+				<div class="tablecolumnlarge"></div>
+			</div>
+<?php endforeach; ?>
+		</div>
+<?php
+	}
+}
+?>
